@@ -18,8 +18,11 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
 
 // Load external GLTF models from directory
-let instaGalaxyMesh;  // mesh for insta galaxy
-let taroMesh;         // mesh for azathoth
+let instaGalaxyMesh;    // mesh for insta galaxy
+let fbGalaxyMesh;       // mesh for fb galaxy
+let linkedinGalaxyMesh; // TODO: mesh for linkedin galaxy
+let gitGalaxyMesh;      // TODO: mesh for git galaxy
+let taroMesh;           // mesh for azathoth
 const objLoader = new GLTFLoader();
 
 // Azathoth
@@ -43,8 +46,22 @@ objLoader.load( './models/insta_galaxy_obj2.gltf', ( gltf ) => {
   instaGalaxyMesh.position.x = -0.4;
   instaGalaxyMesh.position.y = 1.5;
   instaGalaxyMesh.position.z = 0;
-  instaGalaxyMesh.rotation.y = 0.4;
+  instaGalaxyMesh.rotation.y = -0.4;
   instaGalaxyMesh.rotation.z = 0.4;
+}, undefined, function ( error ) {
+  console.error( error );
+});
+
+// Facebook galaxy
+objLoader.load( './models/fb_galaxy_obj1.gltf', ( gltf ) => {
+  fbGalaxyMesh = gltf.scene;
+  fbGalaxyMesh.scale.set(-0.7, -0.7, 0.7);
+  scene.add(fbGalaxyMesh);
+  fbGalaxyMesh.position.x = 0.8;
+  fbGalaxyMesh.position.y = 0.9;
+  fbGalaxyMesh.position.z = 0.2;
+  fbGalaxyMesh.rotation.y = -0.8;
+  fbGalaxyMesh.rotation.x = 0.7;
 }, undefined, function ( error ) {
   console.error( error );
 });
@@ -72,6 +89,7 @@ const animate = () => {
   requestAnimationFrame(animate);
 
   instaGalaxyMesh.rotateY(0.02);
+  fbGalaxyMesh.rotateY(-0.01);
 
   controls.update();
 
