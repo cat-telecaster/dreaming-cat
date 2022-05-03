@@ -21,7 +21,7 @@ camera.position.setZ(30);
 let instaGalaxyMesh;    // mesh for insta galaxy
 let fbGalaxyMesh;       // mesh for fb galaxy
 let linkedinGalaxyMesh; // mesh for linkedin galaxy
-let gitGalaxyMesh;      // TODO: mesh for git galaxy
+let gitGalaxyMesh;      // mesh for git galaxy
 let taroMesh;           // mesh for azathoth
 const objLoader = new GLTFLoader();
 
@@ -80,6 +80,20 @@ objLoader.load( './models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
   console.error( error );
 });
 
+// GitHub galaxy
+objLoader.load( './models/git_galaxy_obj1.gltf', ( gltf ) => {
+  gitGalaxyMesh = gltf.scene;
+  gitGalaxyMesh.scale.set(-1, -1, 1);
+  scene.add(gitGalaxyMesh);
+  gitGalaxyMesh.position.x = -0.6;
+  gitGalaxyMesh.position.y = 1.2;
+  gitGalaxyMesh.position.z = -1.0;
+  gitGalaxyMesh.rotation.z = -0.2;
+  gitGalaxyMesh.rotation.x = 0.1;
+}, undefined, function ( error ) {
+  console.error( error );
+});
+
 // Lighting
 
 const pointLight = new THREE.PointLight(0xFFFFFF);
@@ -105,6 +119,7 @@ const animate = () => {
   instaGalaxyMesh.rotateY(0.02);
   fbGalaxyMesh.rotateY(-0.01);
   linkedinGalaxyMesh.rotateY(0.006);
+  gitGalaxyMesh.rotateY(-0.008);
 
   controls.update();
 
