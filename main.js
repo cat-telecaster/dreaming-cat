@@ -94,6 +94,20 @@ objLoader.load( './models/git_galaxy_obj1.gltf', ( gltf ) => {
   console.error( error );
 });
 
+// Stars
+function addStar () {
+  const geometry = new THREE.SphereGeometry(0.05, 24, 24);
+  const material = new THREE.MeshStandardMaterial( { color: 0xffffff } );
+  const star = new THREE.Mesh( geometry, material );
+
+  const [x, y, z] = Array(3).fill().map( () => THREE.MathUtils.randFloatSpread( 100 ) );
+
+  star.position.set(x, y, z);
+  scene.add(star);
+};
+
+Array(500).fill().forEach(addStar);
+
 // Lighting
 
 const pointLight = new THREE.PointLight(0xFFFFFF);
@@ -102,6 +116,11 @@ pointLight.position.set(10,15,5);
 const ambientLight = new THREE.AmbientLight(0xFFFFFF);
 
 scene.add(pointLight, ambientLight);
+
+// Background
+
+const backTexture = new THREE.TextureLoader().load('./background/render5_1080.png');
+scene.background = backTexture;
 
 // Helpers
 
