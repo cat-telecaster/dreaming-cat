@@ -15,7 +15,8 @@ const renderer = new THREE.WebGL1Renderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(30);
+camera.position.z = 2.8;
+camera.position.x = -1.5;
 
 // Load external GLTF models from directory
 let instaGalaxyMesh;    // mesh for insta galaxy
@@ -128,9 +129,18 @@ const lightHelper = new THREE.PointLightHelper(pointLight);
 const gridHelper = new THREE.GridHelper(200,50)
 scene.add(lightHelper, gridHelper);
 
-// Animation Loop
+// Camera controls
 
 const controls = new OrbitControls(camera, renderer.domElement);
+/*const moveCamera = () => {
+  const t = document.body.getBoundingClientRect().top;
+  
+  camera.position.z = t * -0.01; 
+  camera.position.x = t * -0.01;
+};
+*/
+
+// Animation Loop
 
 const animate = () => {
   requestAnimationFrame(animate);
@@ -140,6 +150,7 @@ const animate = () => {
   linkedinGalaxyMesh.rotateY(0.006);
   gitGalaxyMesh.rotateY(-0.008);
 
+  //document.body.onscroll = moveCamera();
   controls.update();
 
   renderer.render(scene, camera);
