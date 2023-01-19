@@ -9,14 +9,14 @@ const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const renderer = new THREE.WebGL1Renderer({
-  canvas: document.querySelector('#bg')
+const renderer = new THREE.WebGLRenderer({
+  canvas: document.querySelector('#c')
 });
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.z = 2.8;
-camera.position.x = -1.5;
+camera.position.z = 4.8; // 2.8
+camera.position.x = -0.8; // -1.5
 
 // Load external GLTF models from directory
 let instaGalaxyMesh;    // mesh for insta galaxy
@@ -86,11 +86,11 @@ objLoader.load( './assets/models/git_galaxy_obj1.gltf', ( gltf ) => {
   gitGalaxyMesh = gltf.scene;
   gitGalaxyMesh.scale.set(-1, -1, 1);
   scene.add(gitGalaxyMesh);
-  gitGalaxyMesh.position.x = -0.6;
-  gitGalaxyMesh.position.y = 1.2;
-  gitGalaxyMesh.position.z = -1.0;
-  gitGalaxyMesh.rotation.z = -0.2;
-  gitGalaxyMesh.rotation.x = 0.1;
+  gitGalaxyMesh.position.x = -0.7;
+  gitGalaxyMesh.position.y = 1.0;
+  gitGalaxyMesh.position.z = -1.1;
+  gitGalaxyMesh.rotation.z = -0.3;
+  gitGalaxyMesh.rotation.x = -0.2;
 }, undefined, function ( error ) {
   console.error( error );
 });
@@ -120,8 +120,46 @@ scene.add(pointLight, ambientLight);
 
 // Background
 
-const backTexture = new THREE.TextureLoader().load('./assets/background/render5_1080.png');
-scene.background = backTexture;
+function setBackground(scene, backgroundImageWidth, backgroundImageHeight) {
+  const windowSize = function(withScrollBar) {
+    let wid = 0;
+    let hei = 0;
+    if (typeof window.innerWidth != "undefined") {
+      wid = window.innerWidth;
+      hei = window.innerHeight;
+    }
+    else {
+      if (document.documentElement.clientWidth == 0) {
+        wid = document.body.clientWidth;
+        hei = document.body.clientHeight;
+      }
+      else {
+        wid = document.documentElement.clientWidth;
+        hei = document.documentElement.clientHeight;
+      }
+    }
+    return { width: wid - (withScrollBar ? (wid - document.body.offsetWidth + 1) : 0), height: hei };
+  };
+
+  if (scene.background) {
+
+    const size = windowSize(true);
+    const factor = (backgroundImageWidth / backgroundImageHeight) / (size.width / size.height);
+
+    scene.background.offset.x = factor > 1 ? (1 - 1 / factor) / 2 : 0;
+    scene.background.offset.y = factor > 1 ? 0 : (1 - factor) / 2;
+
+    scene.background.repeat.x = factor > 1 ? 1 / factor : 1;
+    scene.background.repeat.y = factor > 1 ? 1 : factor;
+  }
+}
+
+const backgroundImg = new Image();
+backgroundImg.onload = function () {
+  scene.background = new THREE.TextureLoader().load(backgroundImg.src);
+  setBackground(scene, backgroundImg.width, backgroundImg.height);
+};
+backgroundImg.src = './assets/background/render5_1080.png';
 
 // Helpers
 
@@ -144,6 +182,10 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 const animate = () => {
   requestAnimationFrame(animate);
+
+  const canvas = renderer.domElement;
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+  camera.updateProjectionMatrix();
 
   instaGalaxyMesh.rotateY(0.02);
   fbGalaxyMesh.rotateY(-0.01);
