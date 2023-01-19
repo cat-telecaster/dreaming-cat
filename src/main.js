@@ -27,7 +27,7 @@ let taroMesh;           // mesh for azathoth
 const objLoader = new GLTFLoader();
 
 // Azathoth
-objLoader.load( './models/sleeping_taro2.gltf', ( gltf ) => {
+objLoader.load( './assets/models/sleeping_taro2.gltf', ( gltf ) => {
   taroMesh = gltf.scene;
   taroMesh.scale.set(10, 10, 10);
   scene.add(taroMesh);
@@ -40,7 +40,7 @@ objLoader.load( './models/sleeping_taro2.gltf', ( gltf ) => {
 });
 
 // Insta galaxy
-objLoader.load( './models/insta_galaxy_obj2.gltf', ( gltf ) => {
+objLoader.load( './assets/models/insta_galaxy_obj2.gltf', ( gltf ) => {
   instaGalaxyMesh = gltf.scene;
   instaGalaxyMesh.scale.set(0.5, 0.5, 0.5);
   scene.add(instaGalaxyMesh);
@@ -54,7 +54,7 @@ objLoader.load( './models/insta_galaxy_obj2.gltf', ( gltf ) => {
 });
 
 // Facebook galaxy
-objLoader.load( './models/fb_galaxy_obj1.gltf', ( gltf ) => {
+objLoader.load( './assets/models/fb_galaxy_obj1.gltf', ( gltf ) => {
   fbGalaxyMesh = gltf.scene;
   fbGalaxyMesh.scale.set(-0.7, -0.7, 0.7);
   scene.add(fbGalaxyMesh);
@@ -68,7 +68,7 @@ objLoader.load( './models/fb_galaxy_obj1.gltf', ( gltf ) => {
 });
 
 // LinkedIn galaxy
-objLoader.load( './models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
+objLoader.load( './assets/models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
   linkedinGalaxyMesh = gltf.scene;
   linkedinGalaxyMesh.scale.set(1.1, 1.1, 1.1);
   scene.add(linkedinGalaxyMesh);
@@ -82,7 +82,7 @@ objLoader.load( './models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
 });
 
 // GitHub galaxy
-objLoader.load( './models/git_galaxy_obj1.gltf', ( gltf ) => {
+objLoader.load( './assets/models/git_galaxy_obj1.gltf', ( gltf ) => {
   gitGalaxyMesh = gltf.scene;
   gitGalaxyMesh.scale.set(-1, -1, 1);
   scene.add(gitGalaxyMesh);
@@ -120,7 +120,7 @@ scene.add(pointLight, ambientLight);
 
 // Background
 
-const backTexture = new THREE.TextureLoader().load('./background/render5_1080.png');
+const backTexture = new THREE.TextureLoader().load('./assets/background/render5_1080.png');
 scene.background = backTexture;
 
 // Helpers
