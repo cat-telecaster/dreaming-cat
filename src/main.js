@@ -4,6 +4,13 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 let camera, scene, renderer, objLoader;
 
+// Load external GLTF models from directory
+let instaGalaxyMesh;    // mesh for insta galaxy
+let fbGalaxyMesh;       // mesh for fb galaxy
+let linkedinGalaxyMesh; // mesh for linkedin galaxy
+let gitGalaxyMesh;      // mesh for git galaxy
+let taroMesh;           // mesh for azathoth
+
 const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
 const windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
@@ -19,12 +26,6 @@ function init() {
 
     scene = new THREE.Scene();
 
-    // Load external GLTF models from directory
-    let instaGalaxyMesh;    // mesh for insta galaxy
-    let fbGalaxyMesh;       // mesh for fb galaxy
-    let linkedinGalaxyMesh; // mesh for linkedin galaxy
-    let gitGalaxyMesh;      // mesh for git galaxy
-    let taroMesh;           // mesh for azathoth
     objLoader = new GLTFLoader();
 
     // Azathoth
@@ -175,6 +176,11 @@ function animate() {
 
     target.x = (1 - mouse.x) * 0.0002;
     target.y = (1 - mouse.y) * 0.0002;
+
+    // instaGalaxyMesh.rotateY(0.02);
+    // fbGalaxyMesh.rotateY(-0.01);
+    // linkedinGalaxyMesh.rotateY(0.006);
+    // gitGalaxyMesh.rotateY(-0.008);
 
     camera.rotation.x += 0.05 * (target.y - camera.rotation.x);
     camera.rotation.y += 0.05 * (target.x - camera.rotation.y);
