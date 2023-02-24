@@ -2,14 +2,16 @@ import '../styles/main.css'
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-let camera, scene, renderer, objLoader;
+var camera, scene, renderer, objLoader;
 
 // Load external GLTF models from directory
-let instaGalaxyMesh;    // mesh for insta galaxy
-let fbGalaxyMesh;       // mesh for fb galaxy
-let linkedinGalaxyMesh; // mesh for linkedin galaxy
-let gitGalaxyMesh;      // mesh for git galaxy
-let taroMesh;           // mesh for azathoth
+var instaGalaxyMesh;    // mesh for insta galaxy
+var fbGalaxyMesh;       // mesh for fb galaxy
+var linkedinGalaxyMesh; // mesh for linkedin galaxy
+var gitGalaxyMesh;      // mesh for git galaxy
+var taroMesh;           // mesh for azathoth
+
+var clickableObjects = [];
 
 const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
@@ -54,6 +56,11 @@ function init() {
         console.error( error );
     });
 
+    instaGalaxyMesh.userData = {
+        URL: "https://www.instagram.com/kayc.jpg"
+    };
+    clickableObjects.push(instaGalaxyMesh);
+
     // Facebook galaxy
     objLoader.load( './assets/models/fb_galaxy_obj1.gltf', ( gltf ) => {
         fbGalaxyMesh = gltf.scene;
@@ -67,6 +74,11 @@ function init() {
     }, undefined, function ( error ) {
         console.error( error );
     });
+
+    fbGalaxyMesh.userData = {
+        URL: "https://www.facebook.com/crunchtofu"
+    };
+    clickableObjects.push(fbGalaxyMesh);
 
     // LinkedIn galaxy
     objLoader.load( './assets/models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
@@ -82,6 +94,11 @@ function init() {
         console.error( error );
     });
 
+    linkedinGalaxyMesh.userData = {
+        URL: "https://www.linkedin.com/in/kayconnect"
+    };
+    clickableObjects.push(linkedinGalaxyMesh);
+
     // GitHub galaxy
     objLoader.load( './assets/models/git_galaxy_obj1.gltf', ( gltf ) => {
         gitGalaxyMesh = gltf.scene;
@@ -95,6 +112,11 @@ function init() {
     }, undefined, function ( error ) {
         console.error( error );
     });
+
+    gitGalaxyMesh.userData = {
+        URL: "https://github.com/cat-telecaster"
+    };
+    clickableObjects.push(gitGalaxyMesh);
 
     // Stars
     function addStar () {
