@@ -2,7 +2,7 @@ import '../styles/main.css'
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-var camera, scene, renderer, objLoader;
+var camera, scene, modelContainer, raycaster, renderer, objLoader;
 
 // Load external GLTF models from directory
 var instaGalaxyMesh;    // mesh for insta galaxy
@@ -10,8 +10,6 @@ var fbGalaxyMesh;       // mesh for fb galaxy
 var linkedinGalaxyMesh; // mesh for linkedin galaxy
 var gitGalaxyMesh;      // mesh for git galaxy
 var taroMesh;           // mesh for azathoth
-
-var clickableObjects = [];
 
 const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
@@ -26,6 +24,9 @@ function init() {
     camera.position.x = -0.8; // -1.5
 
     scene = new THREE.Scene();
+
+    modelContainer = new THREE.Group();
+    scene.add(modelContainer);
 
     objLoader = new GLTFLoader();
 
@@ -52,14 +53,13 @@ function init() {
         instaGalaxyMesh.position.z = 0;
         instaGalaxyMesh.rotation.y = -0.4;
         instaGalaxyMesh.rotation.z = 0.4;
+        instaGalaxyMesh.userData = {
+            URL: "https://www.instagram.com/kayc.jpg"
+        };
+        modelContainer.add(gltf.scene);
     }, undefined, function ( error ) {
         console.error( error );
     });
-
-    instaGalaxyMesh.userData = {
-        URL: "https://www.instagram.com/kayc.jpg"
-    };
-    clickableObjects.push(instaGalaxyMesh);
 
     // Facebook galaxy
     objLoader.load( './assets/models/fb_galaxy_obj1.gltf', ( gltf ) => {
@@ -71,14 +71,13 @@ function init() {
         fbGalaxyMesh.position.z = 0.2;
         fbGalaxyMesh.rotation.y = -0.8;
         fbGalaxyMesh.rotation.x = 0.7;
+        fbGalaxyMesh.userData = {
+            URL: "https://www.facebook.com/crunchtofu"
+        };
+        modelContainer.add(gltf.scene);
     }, undefined, function ( error ) {
         console.error( error );
     });
-
-    fbGalaxyMesh.userData = {
-        URL: "https://www.facebook.com/crunchtofu"
-    };
-    clickableObjects.push(fbGalaxyMesh);
 
     // LinkedIn galaxy
     objLoader.load( './assets/models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
@@ -90,14 +89,13 @@ function init() {
         linkedinGalaxyMesh.position.z = 0.1;
         linkedinGalaxyMesh.rotation.z = 0.3;
         linkedinGalaxyMesh.rotation.x = 0.3;
+        linkedinGalaxyMesh.userData = {
+            URL: "https://www.linkedin.com/in/kayconnect"
+        };
+        modelContainer.add(gltf.scene);
     }, undefined, function ( error ) {
         console.error( error );
     });
-
-    linkedinGalaxyMesh.userData = {
-        URL: "https://www.linkedin.com/in/kayconnect"
-    };
-    clickableObjects.push(linkedinGalaxyMesh);
 
     // GitHub galaxy
     objLoader.load( './assets/models/git_galaxy_obj1.gltf', ( gltf ) => {
@@ -109,14 +107,13 @@ function init() {
         gitGalaxyMesh.position.z = -1.1;
         gitGalaxyMesh.rotation.z = -0.3;
         gitGalaxyMesh.rotation.x = -0.2;
+        gitGalaxyMesh.userData = {
+            URL: "https://github.com/cat-telecaster"
+        };
+        modelContainer.add(gltf.scene);
     }, undefined, function ( error ) {
         console.error( error );
     });
-
-    gitGalaxyMesh.userData = {
-        URL: "https://github.com/cat-telecaster"
-    };
-    clickableObjects.push(gitGalaxyMesh);
 
     // Stars
     function addStar () {
@@ -153,6 +150,7 @@ function init() {
     const gridHelper = new THREE.GridHelper(200,50)
     scene.add(lightHelper, gridHelper);
 
+    raycaster = new THREE.Raycaster();
     renderer = new THREE.WebGLRenderer({
         canvas: document.querySelector('#c'),
         antialias: true
@@ -163,6 +161,7 @@ function init() {
 
     document.addEventListener('mousemove', onMouseMove, false);
     document.addEventListener('wheel', onMouseWheel, false);
+    document.addEventListener('click', onMouseClick, false);
     window.addEventListener('resize', onResize, false);
 
 }
@@ -178,6 +177,17 @@ function onMouseWheel(event) {
 
     camera.position.z += event.deltaY * 0.01; // move camera along z-axis
 
+}
+
+function onMouseClick() {
+    console.log(modelContainer.children)
+    raycaster.setFromCamera( mouse, camera );
+	const intersects = raycaster.intersectObjects(modelContainer.children);
+    console.log(intersects.length)
+  if (intersects.length > 0) {
+    const { URL } = intersects[0].userData;
+    window.open(URL, '_blank');
+  }
 }
 
 function onResize(event) {
@@ -196,6 +206,14 @@ function onResize(event) {
 function animate() {
 
     requestAnimationFrame(animate);
+
+    raycaster.setFromCamera( mouse, camera );
+	const intersects = raycaster.intersectObjects(modelContainer.children);
+    if (intersects.length > 0) {
+        document.documentElement.style.cursor = "pointer";
+    } else {
+        document.documentElement.style.cursor = "initial"; 
+    }
 
     target.x = (1 - mouse.x) * 0.0002;
     target.y = (1 - mouse.y) * 0.0002;
