@@ -1,15 +1,18 @@
 import '../styles/main.css'
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {cameraPosition} from "three/examples/jsm/nodes/ShaderNode";
 
-var camera, scene, modelContainer, raycaster, renderer, objLoader;
+let camera, scene, raycaster, renderer, objLoader;
+
+let clickableObjects = [];
 
 // Load external GLTF models from directory
-var instaGalaxyMesh;    // mesh for insta galaxy
-var fbGalaxyMesh;       // mesh for fb galaxy
-var linkedinGalaxyMesh; // mesh for linkedin galaxy
-var gitGalaxyMesh;      // mesh for git galaxy
-var taroMesh;           // mesh for azathoth
+let instaGalaxyMesh;    // mesh for insta galaxy
+let fbGalaxyMesh;       // mesh for fb galaxy
+let linkedinGalaxyMesh; // mesh for linkedin galaxy
+let gitGalaxyMesh;      // mesh for git galaxy
+let taroMesh;           // mesh for azathoth
 
 const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
@@ -24,9 +27,6 @@ function init() {
     camera.position.x = -0.8; // -1.5
 
     scene = new THREE.Scene();
-
-    modelContainer = new THREE.Group();
-    scene.add(modelContainer);
 
     objLoader = new GLTFLoader();
 
@@ -56,7 +56,7 @@ function init() {
         instaGalaxyMesh.userData = {
             URL: "https://www.instagram.com/kayc.jpg"
         };
-        modelContainer.add(gltf.scene);
+        clickableObjects.push(instaGalaxyMesh);
     }, undefined, function ( error ) {
         console.error( error );
     });
@@ -74,7 +74,7 @@ function init() {
         fbGalaxyMesh.userData = {
             URL: "https://www.facebook.com/crunchtofu"
         };
-        modelContainer.add(gltf.scene);
+        clickableObjects.push(fbGalaxyMesh);
     }, undefined, function ( error ) {
         console.error( error );
     });
@@ -92,7 +92,7 @@ function init() {
         linkedinGalaxyMesh.userData = {
             URL: "https://www.linkedin.com/in/kayconnect"
         };
-        modelContainer.add(gltf.scene);
+        clickableObjects.push(linkedinGalaxyMesh);
     }, undefined, function ( error ) {
         console.error( error );
     });
@@ -110,7 +110,7 @@ function init() {
         gitGalaxyMesh.userData = {
             URL: "https://github.com/cat-telecaster"
         };
-        modelContainer.add(gltf.scene);
+        clickableObjects.push(gitGalaxyMesh);
     }, undefined, function ( error ) {
         console.error( error );
     });
@@ -151,6 +151,7 @@ function init() {
     scene.add(lightHelper, gridHelper);
 
     raycaster = new THREE.Raycaster();
+
     renderer = new THREE.WebGLRenderer({
         canvas: document.querySelector('#c'),
         antialias: true
@@ -168,8 +169,10 @@ function init() {
 
 function onMouseMove(event) {
 
-    mouse.x = (event.clientX - windowHalf.x);
-    mouse.y = (event.clientY - windowHalf.x);
+    mouse.x = (event.clientX - windowHalf.x); //(event.clientX / window.innerWidth) * 2 - 1;//( ( event.clientX - renderer.domElement.offsetLeft ) / renderer.domElement.width ) * 2 - 1;
+        // (event.clientX - windowHalf.x);
+    mouse.y = (event.clientY - windowHalf.y); //-(event.clientY / window.innerHeight) * 2 + 1;//- ( ( event.clientY - renderer.domElement.offsetTop ) / renderer.domElement.height ) * 2 + 1;
+    // (event.clientY - windowHalf.y);
 
 }
 
@@ -179,15 +182,16 @@ function onMouseWheel(event) {
 
 }
 
-function onMouseClick() {
-    console.log(modelContainer.children)
+function onMouseClick(event) {
+    event.preventDefault();
+    mouse.x = ((event.clientX / window.innerWidth) * 2 - 1);
+    mouse.y = (-(event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera( mouse, camera );
-	const intersects = raycaster.intersectObjects(modelContainer.children);
-    console.log(intersects.length)
-  if (intersects.length > 0) {
-    const { URL } = intersects[0].userData;
-    window.open(URL, '_blank');
-  }
+	const intersects = raycaster.intersectObjects(clickableObjects);
+    if (intersects.length > 0) {
+        const { URL } = intersects[0].object.parent.userData;
+        window.open(URL, '_blank');
+    }
 }
 
 function onResize(event) {
@@ -208,20 +212,20 @@ function animate() {
     requestAnimationFrame(animate);
 
     raycaster.setFromCamera( mouse, camera );
-	const intersects = raycaster.intersectObjects(modelContainer.children);
+	const intersects = raycaster.intersectObjects(clickableObjects);
     if (intersects.length > 0) {
         document.documentElement.style.cursor = "pointer";
     } else {
-        document.documentElement.style.cursor = "initial"; 
+        document.documentElement.style.cursor = "initial";
     }
 
     target.x = (1 - mouse.x) * 0.0002;
     target.y = (1 - mouse.y) * 0.0002;
 
-    instaGalaxyMesh.rotateY(0.02);
-    fbGalaxyMesh.rotateY(-0.01);
-    linkedinGalaxyMesh.rotateY(0.006);
-    gitGalaxyMesh.rotateY(-0.008);
+    if (instaGalaxyMesh) instaGalaxyMesh.rotateY(0.02);
+    if (fbGalaxyMesh) fbGalaxyMesh.rotateY(-0.01);
+    if (linkedinGalaxyMesh) linkedinGalaxyMesh.rotateY(0.006);
+    if (gitGalaxyMesh) gitGalaxyMesh.rotateY(-0.008);
 
     camera.rotation.x += 0.05 * (target.y - camera.rotation.x);
     camera.rotation.y += 0.05 * (target.x - camera.rotation.y);
