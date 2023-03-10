@@ -1,7 +1,6 @@
 import '../styles/main.css'
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {cameraPosition} from "three/examples/jsm/nodes/ShaderNode";
 
 let camera, scene, raycaster, renderer, objLoader;
 
@@ -169,10 +168,8 @@ function init() {
 
 function onMouseMove(event) {
 
-    mouse.x = (event.clientX - windowHalf.x); //(event.clientX / window.innerWidth) * 2 - 1;//( ( event.clientX - renderer.domElement.offsetLeft ) / renderer.domElement.width ) * 2 - 1;
-        // (event.clientX - windowHalf.x);
-    mouse.y = (event.clientY - windowHalf.y); //-(event.clientY / window.innerHeight) * 2 + 1;//- ( ( event.clientY - renderer.domElement.offsetTop ) / renderer.domElement.height ) * 2 + 1;
-    // (event.clientY - windowHalf.y);
+    mouse.x = (event.clientX - windowHalf.x);
+    mouse.y = (event.clientY - windowHalf.y);
 
 }
 
