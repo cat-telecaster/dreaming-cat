@@ -17,6 +17,9 @@ const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
 const windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
+let mouseScrollY = 0;
+let translatedMouseScrollY = 75;// Initial position for camera.position.y
+
 init();
 animate();
 
@@ -120,13 +123,13 @@ function init() {
         const material = new THREE.MeshStandardMaterial( { color: 0xffffff } );
         const star = new THREE.Mesh( geometry, material );
 
-        const [x, y, z] = Array(3).fill().map( () => THREE.MathUtils.randFloatSpread( 100 ) );
+        const [x, y, z] = Array(3).fill().map( () => THREE.MathUtils.randFloatSpread( 200 ) );
 
         star.position.set(x, y, z);
         scene.add(star);
     };
 
-    Array(500).fill().forEach(addStar);
+    Array(5000).fill().forEach(addStar);
 
     // Lighting
 
@@ -175,7 +178,8 @@ function onMouseMove(event) {
 
 function onMouseWheel(event) {
 
-    camera.position.z += event.deltaY * 0.01; // move camera along z-axis
+    mouseScrollY = event.deltaY * 0.0007;
+    //camera.position.z += event.deltaY * 0.001; // move camera along z-axis
 
 }
 
@@ -215,6 +219,11 @@ function animate() {
     } else {
         document.documentElement.style.cursor = "initial";
     }
+
+    translatedMouseScrollY -= mouseScrollY;
+    mouseScrollY *= 0.96;
+
+    camera.position.y = translatedMouseScrollY;
 
     target.x = (1 - mouse.x) * 0.0002;
     target.y = (1 - mouse.y) * 0.0002;
