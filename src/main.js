@@ -25,7 +25,7 @@ animate();
 
 function init() {
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 4.8; // 2.8
+    camera.position.z = 4.5; // 2.8
     camera.position.x = -0.8; // -1.5
 
     scene = new THREE.Scene();
@@ -179,7 +179,6 @@ function onMouseMove(event) {
 function onMouseWheel(event) {
 
     mouseScrollY = event.deltaY * 0.0007;
-    //camera.position.z += event.deltaY * 0.001; // move camera along z-axis
 
 }
 
