@@ -17,8 +17,11 @@ const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
 const windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
-let mouseScrollY = 0;
-let translatedMouseScrollY = 75;// Initial position for camera.position.y
+let mouseWheelY = 0;
+let translatedMouseWheelY = 75; // Initial position for camera.position.y
+
+let scrollY = window.scrollY;
+let currentSection = 0;
 
 init();
 animate();
@@ -166,6 +169,7 @@ function init() {
     document.addEventListener('wheel', onMouseWheel, false);
     document.addEventListener('click', onMouseClick, false);
     window.addEventListener('resize', onResize, false);
+    window.addEventListener('scroll', onScroll, false);
 
 }
 
@@ -178,7 +182,7 @@ function onMouseMove(event) {
 
 function onMouseWheel(event) {
 
-    mouseScrollY = event.deltaY * 0.0007;
+    mouseWheelY = event.deltaY * 0.0007;
 
 }
 
@@ -207,6 +211,13 @@ function onResize(event) {
 
 }
 
+function onScroll(event) {
+
+    scrollY = window.scrollY;
+    console.log(scrollY)
+
+}
+
 function animate() {
 
     requestAnimationFrame(animate);
@@ -219,10 +230,10 @@ function animate() {
         document.documentElement.style.cursor = "initial";
     }
 
-    translatedMouseScrollY -= mouseScrollY;
-    mouseScrollY *= 0.96;
+    translatedMouseWheelY = - scrollY / window.innerHeight + 5 * 0.8248;
+    translatedMouseWheelY *= 10
 
-    camera.position.y = translatedMouseScrollY;
+    camera.position.y = translatedMouseWheelY;
 
     target.x = (1 - mouse.x) * 0.0002;
     target.y = (1 - mouse.y) * 0.0002;
