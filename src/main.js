@@ -17,6 +17,8 @@ const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
 const windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
+const sections = [1,2,3,4,5];
+
 let mouseWheelY = 0;
 let translatedMouseWheelY = 75; // Initial position for camera.position.y
 
@@ -214,7 +216,11 @@ function onResize(event) {
 function onScroll(event) {
 
     scrollY = window.scrollY;
-    console.log(scrollY)
+    const newSection = Math.round(scrollY / window.innerHeight);
+    if (currentSection != newSection) {
+        currentSection = newSection;
+        console.log('changed', currentSection);
+    }
 
 }
 
