@@ -26,8 +26,7 @@ animate();
 function init() {
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 4.8; // 2.8
-    camera.position.x = -0.2; // -1.5
-    camera.position.y = 0.2;
+    camera.position.x = 0.3; // -1.5
 
     scene = new THREE.Scene();
 
@@ -134,8 +133,8 @@ function init() {
 
     // Lighting
 
-    const pointLight = new THREE.PointLight(0xFFFFFF);
-    pointLight.position.set(10,15,5);
+    const pointLight = new THREE.PointLight(0xCFCFCF);
+    pointLight.position.set(-50,22,25);
 
     const ambientLight = new THREE.AmbientLight(0xFFFFFF);
 
