@@ -24,6 +24,7 @@ let translatedMouseWheelY = 75; // Initial position for camera.position.y
 
 let scrollY = window.scrollY;
 let currentSection = 0;
+let lastScrollTop = 0;
 
 init();
 animate();
@@ -219,7 +220,13 @@ function onScroll(event) {
     const newSection = Math.round(scrollY / window.innerHeight);
     if (currentSection != newSection) {
         currentSection = newSection;
-        console.log('changed', currentSection);
+        const ref = document.getElementById(String(currentSection));
+        setTimeout(function () {
+            ref.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }, 1000);
     }
 
 }
