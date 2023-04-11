@@ -2,6 +2,7 @@ import '../styles/main.css'
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 let camera, scene, raycaster, renderer, objLoader;
 
@@ -18,14 +19,37 @@ const mouse = new THREE.Vector2();
 const target = new THREE.Vector2();
 const windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
-const sections = [1,2,3,4,5];
-
 let mouseWheelY = 0;
 let translatedMouseWheelY = 75; // Initial position for camera.position.y
 
 let scrollY = window.scrollY;
 let currentSection = 0;
 let lastScrollTop = 0;
+
+// GSAP Animations
+
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.defaults({
+    ease: "power2.out", 
+    duration: 1
+});
+
+const sections = document.querySelectorAll('.section');
+gsap.from('h1', {
+    yPercent: 100,
+    autoAlpha: 0,
+    ease: 'back',
+    delay: 0.3,
+});
+gsap.to('h2', {
+    y: 0,
+    // stagger: 0.05,
+    delay: 0.1,
+    duration: 0.1,
+    scrollTrigger: {
+        trigger: sections[1],
+    },
+});
 
 init();
 animate();
@@ -63,7 +87,7 @@ function init() {
         instaGalaxyMesh.rotation.y = -0.4;
         instaGalaxyMesh.rotation.z = 0.4;
         instaGalaxyMesh.userData = {
-            URL: "https://www.instagram.com/kayc.jpg"
+            URL: 'https://www.instagram.com/kayc.jpg'
         };
         clickableObjects.push(instaGalaxyMesh);
     }, undefined, function ( error ) {
@@ -81,7 +105,7 @@ function init() {
         fbGalaxyMesh.rotation.y = -0.8;
         fbGalaxyMesh.rotation.x = 0.7;
         fbGalaxyMesh.userData = {
-            URL: "https://www.facebook.com/crunchtofu"
+            URL: 'https://www.facebook.com/crunchtofu'
         };
         clickableObjects.push(fbGalaxyMesh);
     }, undefined, function ( error ) {
@@ -99,7 +123,7 @@ function init() {
         linkedinGalaxyMesh.rotation.z = 0.3;
         linkedinGalaxyMesh.rotation.x = 0.3;
         linkedinGalaxyMesh.userData = {
-            URL: "https://www.linkedin.com/in/kayconnect"
+            URL: 'https://www.linkedin.com/in/kayconnect'
         };
         clickableObjects.push(linkedinGalaxyMesh);
     }, undefined, function ( error ) {
@@ -117,7 +141,7 @@ function init() {
         gitGalaxyMesh.rotation.z = -0.3;
         gitGalaxyMesh.rotation.x = -0.2;
         gitGalaxyMesh.userData = {
-            URL: "https://github.com/cat-telecaster"
+            URL: 'https://github.com/cat-telecaster'
         };
         clickableObjects.push(gitGalaxyMesh);
     }, undefined, function ( error ) {
@@ -173,7 +197,6 @@ function init() {
     document.addEventListener('wheel', onMouseWheel, false);
     document.addEventListener('click', onMouseClick, false);
     window.addEventListener('resize', onResize, false);
-    window.addEventListener('scroll', onScroll, false);
 
 }
 
@@ -212,23 +235,6 @@ function onResize(event) {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
-
-}
-
-function onScroll(event) {
-
-    scrollY = window.scrollY;
-    const newSection = Math.round(scrollY / window.innerHeight);
-    if (currentSection != newSection) {
-        currentSection = newSection;
-        const ref = document.getElementById(String(currentSection));
-        setTimeout(function () {
-            ref.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-            });
-        }, 1000);
-    }
 
 }
 
