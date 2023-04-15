@@ -197,7 +197,7 @@ function init() {
     document.addEventListener('wheel', onMouseWheel, false);
     document.addEventListener('click', onMouseClick, false);
     window.addEventListener('resize', onResize, false);
-
+    window.addEventListener('scroll', onScroll, false);
 }
 
 function onMouseMove(event) {
@@ -235,6 +235,12 @@ function onResize(event) {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
+
+}
+
+function onScroll(event) {
+
+    scrollY = window.scrollY;
 
 }
 
