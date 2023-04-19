@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitType from 'split-type';
 
 let camera, scene, raycaster, renderer, objLoader;
 
@@ -35,11 +36,12 @@ ScrollTrigger.defaults({
 });
 
 const sections = document.querySelectorAll('.section');
-gsap.from('h1', {
-    yPercent: 100,
-    autoAlpha: 0,
-    ease: 'back',
-    delay: 0.3,
+const testText = new SplitType('#test-text')
+gsap.to('.char', {
+    y: 0,
+    stagger: 0.05,
+    delay: 0.2,
+    duration: 0.1,
 });
 gsap.to('h2', {
     y: 0,
@@ -256,7 +258,7 @@ function animate() {
         document.documentElement.style.cursor = "initial";
     }
 
-    translatedMouseWheelY = - scrollY / window.innerHeight + 5 * 0.8248;
+    translatedMouseWheelY = - scrollY / window.innerHeight + 5 * 0.6;
     translatedMouseWheelY *= 10
 
     camera.position.y = translatedMouseWheelY;
