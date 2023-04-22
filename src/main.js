@@ -29,34 +29,75 @@ let lastScrollTop = 0;
 
 // GSAP Animations
 
+//const sections = document.querySelectorAll('.section');
 gsap.registerPlugin(ScrollTrigger);
-ScrollTrigger.defaults({
-    ease: "power2.out", 
-    duration: 1
+
+var thisSection = '';
+const sections = gsap.utils.toArray('.section');
+console.log(sections[0].getAttribute('id'))
+sections.forEach( (item) => {
+    let currentFunction = item.getAttribute('id');
+    console.log(currentFunction)
+    ScrollTrigger.create({
+        trigger: item,
+        start: "top top",
+        scrub: 1,
+        onEnter: ({ progress, direction, isActive }) => {
+            getCurrenAnimation(currentFunction)
+            console.log('enter down ' + thisSection)
+        },
+        onEnterBack: ({ progress, direction, isActive }) => {
+            getCurrenAnimation(currentFunction)
+            console.log('enter up ' + thisSection)
+        },
+      });
+});
+ScrollTrigger.create({
+    snap: 1 / 3,
 });
 
-const sections = document.querySelectorAll('.section');
+function getCurrenAnimation(fnstring) {
+    switch (fnstring) {
+        case '1': first(); break;
+        case '2': second(); break;
+        case '3': third(); break;
+    }
+}
 
-const testText = new SplitType('#welcome-page')
+function first() {
+    thisSection = '1'
+    // timeline1.play()
+}
+
+function second() {
+    thisSection = '2'
+    // timeline2.play()
+}
+
+function third() {
+    thisSection = '3'
+    // timeline3.play()
+}
+
+const greetingText = new SplitType('#welcome-page')
 gsap.to('.name-intro', {
     opacity: 1,
     stagger: 1,
     delay: 2,
     duration: 1,
-    ease: "power2.in",
+    ease: 'power2.in',
 });
-// gsap.to('.name-intro', {
-//     opacity: 0,
-//     delay: 0.5,
-//     duration: 1,
-//     ease: "power2.in",
+// gsap.to(sections, {
+//     ease: "none",
 //     scrollTrigger: {
 //         trigger: sections[0],
+//         pin: true,
+//         scrub: 1,
 //         snap: {
-//             snapTo: "labels",
-//             duration: {min: 0.2, max: 3},
-//             delay: 0.2,
-//             ease: "power1.inOut",
+//             snapTo: 1 / (sections.length - 1),
+//             duration: 0.2,
+//             delay: 0.1,
+//             ease: 'power1.inOut',
 //         },
 //     },
 // });
