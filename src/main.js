@@ -9,6 +9,9 @@ let camera, scene, raycaster, renderer, objLoader;
 
 let clickableObjects = [];
 
+const backgroundImg = new Image();
+backgroundImg.src = './assets/background/render5_1080.png';
+
 // Load external GLTF models from directory
 let instaGalaxyMesh;    // mesh for insta galaxy
 let fbGalaxyMesh;       // mesh for fb galaxy
@@ -24,6 +27,8 @@ let mouseWheelY = 0;
 let translatedMouseWheelY = 75; // Initial position for camera.position.y
 
 let scrollY = window.scrollY;
+
+init();
 
 // GSAP Animations
 gsap.registerPlugin(ScrollTrigger);
@@ -70,6 +75,13 @@ const timeline3 = gsap.timeline({paused: true})
         delay: 0.7,
         duration: 0.8,
         ease: 'power2.in',
+    })
+    .to('body', {
+        backgroundColor: "transparent",
+    })
+    .to('#c', {
+        opacity: 1,
+        duration: 0.5,
     });
 
 sections.forEach( (item) => {
@@ -79,13 +91,13 @@ sections.forEach( (item) => {
         start: "top top",
         scrub: 1,
         onEnter: ({ progress, direction, isActive }) => {
-            console.log('enter down ' + thisSection);
-            console.log(currentFunction)
+            // console.log('enter down ' + thisSection);
+            // console.log(currentFunction)
             getToAnimation(currentFunction);
         },
         onEnterBack: ({ progress, direction, isActive }) => {
-            console.log('enter up ' + thisSection);
-            console.log(currentFunction)
+            // console.log('enter up ' + thisSection);
+            // console.log(currentFunction)
             getFromAnimation(currentFunction);
         },
       });
@@ -112,6 +124,10 @@ function getFromAnimation(fnstring) {
 
 function toFirst() {
     thisSection = '1';
+    gsap.to('body', {
+        duration: 0.5,
+        backgroundColor: '#9575cd'
+    })
     timeline1.restart();
 };
 
@@ -154,23 +170,7 @@ gsap.to('.name-intro', {
     duration: 1,
     ease: 'power2.in',
 });
-// gsap.to(sections, {
-//     ease: "none",
-//     scrollTrigger: {
-//         trigger: sections[0],
-//         pin: true,
-//         scrub: 1,
-//         snap: {
-//             snapTo: 1 / (sections.length - 1),
-//             duration: 0.2,
-//             delay: 0.1,
-//             ease: 'power1.inOut',
-//         },
-//     },
-// });
 
-
-init();
 animate();
 
 function init() {
@@ -290,17 +290,14 @@ function init() {
 
     scene.add(pointLight, ambientLight);
 
-    const backgroundImg = new Image();
     backgroundImg.onload = function () {
         scene.background = new THREE.TextureLoader().load(backgroundImg.src);
-        setBackground(scene, backgroundImg.width, backgroundImg.height);
     };
-    backgroundImg.src = './assets/background/render5_1080.png';
 
     // Helpers
-    const lightHelper = new THREE.PointLightHelper(pointLight);
-    const gridHelper = new THREE.GridHelper(200,50)
-    scene.add(lightHelper, gridHelper);
+    // const lightHelper = new THREE.PointLightHelper(pointLight);
+    // const gridHelper = new THREE.GridHelper(200,50)
+    // scene.add(lightHelper, gridHelper);
 
     raycaster = new THREE.Raycaster();
 
@@ -353,6 +350,8 @@ function onResize(event) {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
+
+    setBackground(scene, backgroundImg.width, backgroundImg.height);
 
 }
 
