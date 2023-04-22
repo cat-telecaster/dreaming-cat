@@ -36,22 +36,31 @@ ScrollTrigger.defaults({
 });
 
 const sections = document.querySelectorAll('.section');
-const testText = new SplitType('#test-text')
-gsap.to('.char', {
-    y: 0,
-    stagger: 0.05,
-    delay: 0.2,
-    duration: 0.1,
+
+const testText = new SplitType('#welcome-page')
+gsap.to('.name-intro', {
+    opacity: 1,
+    stagger: 1,
+    delay: 0.5,
+    duration: 1,
+    ease: "power2.in",
 });
-gsap.to('h2', {
-    y: 0,
-    // stagger: 0.05,
-    delay: 0.1,
-    duration: 0.1,
-    scrollTrigger: {
-        trigger: sections[1],
-    },
-});
+// gsap.to('.name-intro', {
+//     opacity: 0,
+//     delay: 0.5,
+//     duration: 1,
+//     ease: "power2.in",
+//     scrollTrigger: {
+//         trigger: sections[0],
+//         snap: {
+//             snapTo: "labels",
+//             duration: {min: 0.2, max: 3},
+//             delay: 0.2,
+//             ease: "power1.inOut",
+//         },
+//     },
+// });
+
 
 init();
 animate();
