@@ -41,7 +41,7 @@ const testText = new SplitType('#welcome-page')
 gsap.to('.name-intro', {
     opacity: 1,
     stagger: 1,
-    delay: 0.5,
+    delay: 2,
     duration: 1,
     ease: "power2.in",
 });
@@ -225,7 +225,6 @@ function onMouseWheel(event) {
 }
 
 function onMouseClick(event) {
-    event.preventDefault();
     mouse.x = ((event.clientX / window.innerWidth) * 2 - 1);
     mouse.y = (-(event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera( mouse, camera );
@@ -267,7 +266,7 @@ function animate() {
         document.documentElement.style.cursor = "initial";
     }
 
-    translatedMouseWheelY = - scrollY / window.innerHeight + 5 * 0.6;
+    translatedMouseWheelY = - scrollY / window.innerHeight + 5 * 0.6096;
     translatedMouseWheelY *= 10
 
     camera.position.y = translatedMouseWheelY;
