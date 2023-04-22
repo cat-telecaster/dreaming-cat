@@ -107,10 +107,10 @@ h2 {
 }
 
 .link-page-header {
-  grid-column: 4/8;
-  grid-row: 0/4;
   font-size: calc(20px + 0.390625vw);
   transform: translateY(-280px);
+  text-align: center;
+  align-content: center;
 }
 
 .section
