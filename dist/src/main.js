@@ -10,7 +10,7 @@ let camera, scene, raycaster, renderer, objLoader;
 let clickableObjects = [];
 
 const backgroundImg = new Image();
-backgroundImg.src = './assets/background/render5_1080.png';
+backgroundImg.src = './dist/assets/background/render5_1080.png';
 
 // Load external GLTF models from directory
 let instaGalaxyMesh;    // mesh for insta galaxy
@@ -183,7 +183,7 @@ function init() {
     objLoader = new GLTFLoader();
 
     // Azathoth
-    objLoader.load( './assets/models/sleeping_taro2.gltf', ( gltf ) => {
+    objLoader.load( './dist/assets/models/sleeping_taro2.gltf', ( gltf ) => {
         taroMesh = gltf.scene;
         taroMesh.scale.set(10, 10, 10);
         scene.add(taroMesh);
@@ -196,7 +196,7 @@ function init() {
     });
 
     // Insta galaxy
-    objLoader.load( './assets/models/insta_galaxy_obj2.gltf', ( gltf ) => {
+    objLoader.load( './dist/assets/models/insta_galaxy_obj2.gltf', ( gltf ) => {
         instaGalaxyMesh = gltf.scene;
         instaGalaxyMesh.scale.set(0.5, 0.5, 0.5);
         scene.add(instaGalaxyMesh);
@@ -214,7 +214,7 @@ function init() {
     });
 
     // Facebook galaxy
-    objLoader.load( './assets/models/fb_galaxy_obj1.gltf', ( gltf ) => {
+    objLoader.load( './dist/assets/models/fb_galaxy_obj1.gltf', ( gltf ) => {
         fbGalaxyMesh = gltf.scene;
         fbGalaxyMesh.scale.set(-0.7, -0.7, 0.7);
         scene.add(fbGalaxyMesh);
@@ -232,7 +232,7 @@ function init() {
     });
 
     // LinkedIn galaxy
-    objLoader.load( './assets/models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
+    objLoader.load( './dist/assets/models/linkedin_galaxy_obj1.gltf', ( gltf ) => {
         linkedinGalaxyMesh = gltf.scene;
         linkedinGalaxyMesh.scale.set(1.1, 1.1, 1.1);
         scene.add(linkedinGalaxyMesh);
@@ -250,7 +250,7 @@ function init() {
     });
 
     // GitHub galaxy
-    objLoader.load( './assets/models/git_galaxy_obj1.gltf', ( gltf ) => {
+    objLoader.load( './dist/assets/models/git_galaxy_obj1.gltf', ( gltf ) => {
         gitGalaxyMesh = gltf.scene;
         gitGalaxyMesh.scale.set(-1, -1, 1);
         scene.add(gitGalaxyMesh);
