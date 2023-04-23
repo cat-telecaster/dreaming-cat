@@ -1,9 +1,5 @@
-import '../styles/main.css'
-//import * as THREE from 'three';
-//import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SplitType from 'split-type';
+import * as THREE from 'three';
+import { GLTFLoader } from 'GLTFLoader';
 
 let camera, scene, raycaster, renderer, objLoader;
 
