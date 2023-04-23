@@ -80,8 +80,9 @@ h2 {
   grid-row: 3;
   padding-left: 10%;
   margin-top: -5px;
-  margin-bottom: -5px;
+  margin-bottom: 0px;
   align-content: right;
+
 }
 
 .me-info{
@@ -102,7 +103,7 @@ h2 {
   font-size: calc(12px + 0.390625vw);
   padding-right: 2%;
   padding-left: 10%;
-  padding-top: 5%;
+  padding-top: 20%;
 }
 
 .wrk-entry {
