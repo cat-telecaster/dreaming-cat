@@ -96,21 +96,24 @@ h2 {
 }
 
 .wrk-exp {
-  grid-column: 4/8;
+  grid-column: 4/6;
   grid-row: 3/6;
   font-family: Cabin;
   font-size: calc(12px + 0.390625vw);
+  padding-right: 2%;
+  padding-left: 10%;
 }
 
 .wrk-entry {
   width: 100%;
   margin-bottom: 10px;
-  text-align: center;
+  text-align: left;
+  align-content: center;
 }
 
 .cmp-name, a {
   font-weight: bold;
-  color: #52bedc;
+  color: #060d0f;
   border-bottom: none;
   transition: all 0.3s ease;
   text-decoration: none;
