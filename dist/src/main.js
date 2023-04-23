@@ -35,36 +35,33 @@ const sections = gsap.utils.toArray('.section');
 const timeline1 = gsap.timeline({paused: true})
     .from('#about-me', {
         opacity: 0,
-        delay: 1.5,
+        delay: 0,
         duration: 0.5,
         ease: 'power2.in',
     })
     .from('.me-info', {
         opacity: 0,
         stagger: 1,
-        delay: 0.3,
+        delay: 0.2,
         duration: 0.5,
         ease: 'power2.in',
-    });
-
-
-const timeline2 = gsap.timeline({paused: true})
+    })
     .from('#work-hist', {
         opacity: 0,
-        delay: 1.2,
+        delay: 0.2,
         duration: 0.5,
         ease: 'power2.in',
     })
     .from('.wrk-entry', {
         opacity: 0,
-        stagger: 1,
-        delay: 0.3,
+        stagger: 0.1,
+        delay: 0.2,
         duration: 0.5,
         ease: 'power2.in',
     });
 
 const linkPageText = new SplitType('.link-page-header')
-const timeline3 = gsap.timeline({paused: true})
+const timeline2 = gsap.timeline({paused: true})
     .from('.word', {
         opacity: 0,
         stagger: 0.1,
@@ -73,7 +70,7 @@ const timeline3 = gsap.timeline({paused: true})
         ease: 'power2.in',
     })
     .to('body', {
-        backgroundColor: "transparent",
+        background: "transparent",
     })
     .to('#c', {
         opacity: 1,
@@ -88,25 +85,24 @@ sections.forEach( (item) => {
         scrub: 1,
         onEnter: ({ progress, direction, isActive }) => {
             // console.log('enter down ' + thisSection);
-            // console.log(currentFunction)
+            // console.log(currentFunction);
             getToAnimation(currentFunction);
         },
         onEnterBack: ({ progress, direction, isActive }) => {
             // console.log('enter up ' + thisSection);
-            // console.log(currentFunction)
+            // console.log(currentFunction);
             getFromAnimation(currentFunction);
         },
       });
 });
 ScrollTrigger.create({
-    snap: 1 / 3,
+    snap: 1 / 2,
 });
 
 function getToAnimation(fnstring) {
     switch (fnstring) {
         case '1': toFirst(); break;
         case '2': toSecond(); break;
-        case '3': toThird(); break;
     }
 };
 
@@ -114,7 +110,6 @@ function getFromAnimation(fnstring) {
     switch (fnstring) {
         case '1': fromFirst(); break;
         case '2': fromSecond(); break;
-        case '3': fromThird(); break;
     }
 };
 
@@ -122,47 +117,27 @@ function toFirst() {
     thisSection = '1';
     gsap.to('body', {
         duration: 0.5,
-        backgroundColor: '#9575cd'
+        background: 'linear-gradient(#d1c4e9, #9575cd)'
     })
-    timeline1.restart();
+    timeline1.play();
 };
 
 function fromFirst() {
     thisSection = '1';
-    timeline1.restart();
+    timeline1.play();
     timeline2.reverse();
 };
 
 function toSecond() {
     thisSection = '2';
     timeline2.restart();
-    timeline1.reverse();
-};
-
-function fromSecond() {
-    thisSection = '2';
-    timeline2.restart();
-    timeline1.restart();
-    timeline3.reverse();
-};
-
-function toThird() {
-    thisSection = '3';
-    timeline3.restart();
-    timeline2.reverse();
-};
-
-function fromThird() {
-    thisSection = '3';
-    // timeline3.reverse();
-    // timeline2.restart();
 };
 
 const greetingText = new SplitType('#welcome-page')
 gsap.to('.name-intro', {
     opacity: 1,
     stagger: 1,
-    delay: 2,
+    delay: 0.5,
     duration: 1,
     ease: 'power2.in',
 });
@@ -291,9 +266,9 @@ function init() {
     };
 
     // Helpers
-    // const lightHelper = new THREE.PointLightHelper(pointLight);
-    // const gridHelper = new THREE.GridHelper(200,50)
-    // scene.add(lightHelper, gridHelper);
+    const lightHelper = new THREE.PointLightHelper(pointLight);
+    const gridHelper = new THREE.GridHelper(200,50)
+    scene.add(lightHelper, gridHelper);
 
     raycaster = new THREE.Raycaster();
 
@@ -369,7 +344,7 @@ function animate() {
         document.documentElement.style.cursor = "initial";
     }
 
-    translatedMouseWheelY = - scrollY / window.innerHeight + 5 * 0.6096;
+    translatedMouseWheelY = - scrollY / window.innerHeight + 5 * 0.4064;
     translatedMouseWheelY *= 10
 
     camera.position.y = translatedMouseWheelY;
